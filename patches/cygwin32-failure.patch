@@ -1,0 +1,26 @@
+diff --git a/bootstrap.conf b/bootstrap.conf
+index 66f36db..4553372 100644
+--- a/bootstrap.conf
++++ b/bootstrap.conf
+@@ -16,6 +16,10 @@
+ # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ 
+ 
++avoided_gnulib_modules='
++  --avoid=year2038-tests
++'
++
+ # gnulib modules used by this package.
+ gnulib_modules="
+ announce-gen
+@@ -88,6 +92,10 @@ xstdopen
+ year2038-recommended
+ "
+ 
++gnulib_tool_option_extras="
++ $avoided_gnulib_modules
++"
++
+ # Build prerequisites
+ buildreq="\
+ autoconf   2.59
