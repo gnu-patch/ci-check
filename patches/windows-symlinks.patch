@@ -1,0 +1,14 @@
+diff --git a/src/pch.c b/src/pch.c
+index 0d5fd84..83c0fb1 100644
+--- a/src/pch.c
++++ b/src/pch.c
+@@ -352,7 +352,9 @@ fetchmode (char const *str)
+       uses zero to indicate unknown or missing file types, S_IFLNK and
+       S_IFREG must be nonzero.  This is true on all known platforms
+       although POSIX does not require it; check here to be sure.  */
++#ifdef S_IFLNK
+    static_assert (S_IFLNK);
++#endif
+    static_assert (S_IFREG);
+ 
+    mode_t m = file_type | (mode & S_IRWXUGO);

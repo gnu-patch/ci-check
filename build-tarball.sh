@@ -30,6 +30,7 @@ export GNULIB_SRCDIR=`pwd`/gnulib
 
 # Apply patches.
 (cd "$package" && patch -p1 < ../patches/cygwin32-failure.patch)
+(cd "$package" && patch -p1 < ../patches/windows-symlinks.patch)
 
 cd "$package"
 # Force use of the newest gnulib.
