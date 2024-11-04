@@ -40,7 +40,7 @@ index 2aafbca..52a411b 100644
  
  static void init_dirfd_cache (void)
  {
-+#if defined _WIN32 && !defined __CYGWIN__
++#if !(defined _WIN32 && !defined __CYGWIN__)
    struct rlimit nofile;
  
    if (getrlimit (RLIMIT_NOFILE, &nofile) == 0)
