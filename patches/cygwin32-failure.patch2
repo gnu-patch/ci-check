@@ -1,0 +1,13 @@
+diff --git a/bootstrap.conf b/bootstrap.conf
+index 1dc8cbe..30cf8f8 100644
+--- a/bootstrap.conf
++++ b/bootstrap.conf
+@@ -90,7 +90,7 @@ utimensat
+ verror
+ xalloc
+ xstdopen
+-year2038-recommended
++year2038
+ "
+ 
+ gnulib_tool_option_extras="
