@@ -11,7 +11,7 @@ index 4553372..1dc8cbe 100644
  gettime
  gitlog-to-changelog
 diff --git a/src/safe.c b/src/safe.c
-index 2aafbca..52a411b 100644
+index 2aafbca..10b70e7 100644
 --- a/src/safe.c
 +++ b/src/safe.c
 @@ -21,7 +21,9 @@
@@ -27,22 +27,22 @@ index 2aafbca..52a411b 100644
  #include <stdio.h>
 @@ -73,8 +75,8 @@ struct cached_dirfd {
  };
- 
+
  static Hash_table *cached_dirfds;
 -static rlim_t min_cached_fds = 8;
 -static rlim_t max_cached_fds;
 +static size_t min_cached_fds = 8;
 +static size_t max_cached_fds;
  static LIST_HEAD (lru_list);
- 
+
  static size_t hash_cached_dirfd (const void *entry, size_t table_size)
 @@ -103,6 +105,7 @@ static void free_cached_dirfd (struct cached_dirfd *entry)
- 
+
  static void init_dirfd_cache (void)
  {
 +#if !(defined _WIN32 && !defined __CYGWIN__)
    struct rlimit nofile;
- 
+
    if (getrlimit (RLIMIT_NOFILE, &nofile) == 0)
 @@ -114,6 +117,9 @@ static void init_dirfd_cache (void)
      }
@@ -51,6 +51,16 @@ index 2aafbca..52a411b 100644
 +#else
 +  max_cached_fds = getdtablesize ();
 +#endif
- 
+
    cached_dirfds = hash_initialize (min_cached_fds, nullptr,
  				   hash_cached_dirfd,
+@@ -160,7 +166,9 @@ static void insert_cached_dirfd (struct cached_dirfd *entry, int keepfd)
+   if (!cached_dirfds)
+     init_dirfd_cache ();
+
++#if !(defined _WIN32 && !defined __CYGWIN__)
+   if (max_cached_fds != RLIM_INFINITY)
++#endif
+     {
+       /* Trim off the least recently used entries */
+       while (hash_get_n_entries (cached_dirfds) >= max_cached_fds)
