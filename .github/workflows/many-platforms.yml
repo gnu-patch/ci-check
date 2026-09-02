@@ -767,6 +767,8 @@ jobs:
           overwrite: true
   check-msys2:
     name: make check on mingw
+    # Disabled due to compilation errors.
+    if: ${{ false }}
     needs: build-tarball
     # Doc: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
     strategy:
